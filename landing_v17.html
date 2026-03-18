@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIとエンジニアリングマネジメント（寄附講座）｜慶應義塾大学 SFC 2026春</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c1: #1B4F72;
+  --c2: #2E75B6;
+  --c2l: #5b9fd4;
+  --gold: #C9A84C;
+  --gold-l: #e8c97a;
+  --cream: #F8F5EF;
+  --cream-d: #EDE8DF;
+  --red: #C0392B;
+  --green: #1a6b3a;
+  --green-l: #e9f7ef;
+  --sg: #EF7C00;   /* Singapore accent */
+  --body: #1a1a2e;
+  --muted: #5a6478;
+  --white: #ffffff;
+  --bg: #f5f7fa;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--body);
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+/* ─── NOTICE BAR ─── */
+.notice-bar {
+  background: var(--red);
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.notice-bar a { color: rgba(255,255,255,.85); text-decoration: underline; }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--c1);
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 110% 0%, rgba(46,117,182,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 80% at -10% 100%, rgba(201,168,76,.12) 0%, transparent 55%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(46,117,182,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46,117,182,.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 48px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(201,168,76,.4);
+  padding: 5px 14px 5px 10px;
+  margin-bottom: 24px;
+  font-size: 11px;
+  color: var(--gold-l);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.4;transform:scale(1.6)}
+}
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.hero-q {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  color: white;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+.hero-q em {
+  font-style: normal;
+  color: var(--gold-l);
+}
+.hero-sub {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: clamp(.9rem, 1.6vw, 1.1rem);
+  color: rgba(255,255,255,.45);
+  margin-bottom: 28px;
+}
+.hero-desc {
+  font-size: 14px;
+  line-height: 1.9;
+  color: rgba(255,255,255,.65);
+  margin-bottom: 36px;
+  font-weight: 300;
+}
+.hero-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border: 1px solid rgba(255,255,255,.12);
+  margin-bottom: 32px;
+}
+.hspec {
+  padding: 10px 16px;
+  border-right: 1px solid rgba(255,255,255,.1);
+  flex: 1; min-width: 90px;
+}
+.hspec:last-child { border-right: none; }
+.hspec-l { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: 3px; }
+.hspec-v { font-size: 12px; color: rgba(255,255,255,.85); font-weight: 500; }
+
+.hero-cta {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--c1);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 13px 28px;
+  letter-spacing: .06em;
+  text-decoration: none;
+  transition: transform .15s, box-shadow .15s;
+}
+.hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,.35); }
+
+/* Hero right: big typographic element */
+.hero-right {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.big-stat {
+  text-align: right;
+}
+.big-stat .num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(5rem, 10vw, 9rem);
+  color: rgba(255,255,255,.06);
+  line-height: 1;
+  letter-spacing: -.02em;
+  display: block;
+}
+.stat-card {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-left: 3px solid var(--gold);
+  padding: 16px 20px;
+  backdrop-filter: blur(8px);
+}
+.stat-card .sc-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  color: var(--gold-l);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-card .sc-label {
+  font-size: 11px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.6;
+}
+.stat-card.sg {
+  border-left-color: var(--sg);
+}
+.stat-card.sg .sc-num { color: var(--sg); }
+
+.hero-bottom {
+  position: relative; z-index: 1;
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 16px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 11px;
+  color: rgba(255,255,255,.35);
+  letter-spacing: .08em;
+}
+.hero-bottom span { color: rgba(255,255,255,.6); }
+
+/* ─── WRAP ─── */
+.wrap { max-width: 1100px; margin: 0 auto; padding: 80px 48px; }
+.sec-eye {
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.sec-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 600;
+  color: var(--c1);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.sec-rule { width: 40px; height: 2px; background: var(--gold); margin-bottom: 32px; }
+
+/* ─── ALREADY REGISTERED ─── */
+.registered-section {
+  background: var(--c1);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.registered-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(46,117,182,.4) 0%, transparent 60%);
+}
+.reg-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 72px 48px;
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.reg-tag {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--c1);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.reg-inner h2 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 600;
+  color: white;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+.reg-inner p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: rgba(255,255,255,.65);
+  font-weight: 300;
+}
+.unchanged-list {
+  list-style: none;
+  margin-top: 24px;
+}
+.unchanged-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  font-size: 13px;
+  color: rgba(255,255,255,.75);
+}
+.unchanged-list li::before {
+  content: '✓';
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.diff-simple {
+  margin-top: 24px;
+  display: grid;
+  gap: 10px;
+}
+.diff-row {
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+}
+.diff-old-box {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  padding: 8px 12px;
+  color: rgba(255,255,255,.4);
+  text-decoration: line-through;
+  line-height: 1.5;
+}
+.diff-new-box {
+  background: rgba(201,168,76,.12);
+  border: 1px solid rgba(201,168,76,.3);
+  padding: 8px 12px;
+  color: var(--gold-l);
+  font-weight: 500;
+  line-height: 1.5;
+}
+.diff-arr { text-align: center; color: var(--gold); font-size: 16px; }
+
+/* ─── WHAT YOU DO ─── */
+.what-section { background: var(--cream); }
+.what-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2px;
+  margin-top: 0;
+}
+.what-card {
+  background: white;
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s;
+}
+.what-card:hover { transform: translateY(-3px); }
+.what-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--c2);
+}
+.what-card.highlight::before { background: var(--gold); }
+.what-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  color: var(--cream-d);
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -.02em;
+}
+.what-card h3 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--c1);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+.what-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+
+.sg-section {
+  background: #0a1628;
+  position: relative;
+  overflow: hidden;
+}
+.sg-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(239,124,0,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 100% 100%, rgba(46,117,182,.2) 0%, transparent 55%);
+}
+.sg-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 88px 48px;
+  position: relative; z-index: 1;
+  text-align: center;
+}
+.sg-tag {
+  display: inline-block;
+  background: var(--sg);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 14px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.sg-inner h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: white;
+  line-height: 1.05;
+  letter-spacing: .02em;
+  margin-bottom: 16px;
+}
+.sg-inner h2 em {
+  font-style: normal;
+  color: var(--sg);
+}
+.sg-inner p {
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.9;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  font-weight: 300;
+}
+.sg-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.sg-step {
+  text-align: center;
+}
+.sg-step-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  color: var(--sg);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.sg-step h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 6px;
+}
+.sg-step p {
+  font-size: 12px;
+  color: rgba(255,255,255,.4);
+  line-height: 1.65;
+  margin: 0;
+}
+.sg-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(239,124,0,.4);
+  font-size: 1.5rem;
+  padding-top: 40px;
+}
+.sg-note {
+  margin-top: 36px;
+  display: inline-block;
+  border: 1px solid rgba(239,124,0,.25);
+  padding: 12px 24px;
+  font-size: 12px;
+  color: rgba(255,255,255,.45);
+  font-style: italic;
+}
+
+/* ─── DOMAINS ─── */
+.domain-section { background: white; }
+.domain-intro {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.85;
+  max-width: 680px;
+  margin-bottom: 36px;
+}
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.domain-card {
+  border: 1px solid var(--cream-d);
+  border-top: 3px solid var(--c2);
+  padding: 24px 22px;
+  background: var(--cream);
+  transition: border-top-color .2s, transform .2s;
+}
+.domain-card:hover {
+  border-top-color: var(--gold);
+  transform: translateY(-2px);
+}
+.d-team {
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--c2);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.domain-card h3 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--c1);
+  margin-bottom: 8px;
+}
+.domain-card p {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.domain-note {
+  margin-top: 20px;
+  background: var(--green-l);
+  border-left: 3px solid var(--green);
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--green);
+  line-height: 1.75;
+}
+
+/* ─── SCHEDULE ─── */
+.schedule-section { background: var(--cream); }
+.schedule-note {
+  background: var(--c1);
+  color: rgba(255,255,255,.7);
+  font-size: 12px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  line-height: 1.7;
+  border-left: 3px solid var(--gold);
+}
+.sched-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.sched-table th {
+  background: var(--c1);
+  color: white;
+  padding: 9px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+}
+.sched-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--cream-d);
+  vertical-align: top;
+  line-height: 1.65;
+}
+.sched-table tr.s-g td { background: #E8F5EC; }
+.sched-table tr.s-w td { background: white; }
+.sched-table tr.s-y td { background: #FEF9E7; font-weight: 500; }
+.sched-table tr.s-b td { background: #EAF2FF; }
+.sched-table tr.s-rest td { background: var(--cream-d); color: #aaa; }
+.sched-table .phase { font-size: 10px; color: var(--c2); }
+.new-badge {
+  display: inline-block;
+  background: var(--c2);
+  color: white;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 6px;
+  vertical-align: middle;
+  margin-left: 4px;
+  letter-spacing: .06em;
+}
+
+/* ─── OUTPUT ─── */
+.output-section {
+  background: linear-gradient(135deg, var(--c1) 0%, #0d2440 100%);
+  color: white;
+  padding: 88px 48px;
+  text-align: center;
+}
+.output-inner { max-width: 700px; margin: 0 auto; }
+.output-section .sec-eye, .output-section .sec-title { text-align: center; }
+.output-section .sec-title { color: white; }
+.output-section .sec-rule { margin: 12px auto 24px; }
+.output-section p {
+  font-size: 14px;
+  color: rgba(255,255,255,.58);
+  line-height: 1.9;
+  margin-bottom: 32px;
+  font-weight: 300;
+}
+.output-tags {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  margin-bottom: 36px;
+}
+.output-tag {
+  border: 1px solid rgba(201,168,76,.35);
+  color: var(--gold-l);
+  font-size: 11px;
+  padding: 6px 16px;
+  letter-spacing: .04em;
+}
+
+/* ─── INFO ─── */
+.info-section { background: var(--cream-d); }
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.info-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  vertical-align: top;
+  line-height: 1.6;
+}
+.info-table .lbl {
+  background: var(--c1);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  width: 90px;
+}
+.info-table .val { background: white; }
+.ieem-box {
+  background: var(--c1);
+  color: white;
+  padding: 28px;
+  height: 100%;
+}
+.ieem-box h3 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gold-l);
+  margin-bottom: 14px;
+}
+.ieem-box p {
+  font-size: 12.5px;
+  color: rgba(255,255,255,.6);
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+.ieem-box .ieem-name {
+  font-size: 11px;
+  border: 1px solid rgba(201,168,76,.3);
+  padding: 8px 12px;
+  color: var(--gold-l);
+  line-height: 1.6;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: #060e1c;
+  padding: 32px 48px;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255,255,255,.22);
+  line-height: 1.8;
+  letter-spacing: .06em;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-inner > * {
+  animation: fadeUp .65s ease both;
+}
+.hero-left > *:nth-child(1){ animation-delay:.05s }
+.hero-left > *:nth-child(2){ animation-delay:.12s }
+.hero-left > *:nth-child(3){ animation-delay:.18s }
+.hero-left > *:nth-child(4){ animation-delay:.24s }
+.hero-left > *:nth-child(5){ animation-delay:.3s }
+.hero-left > *:nth-child(6){ animation-delay:.36s }
+.hero-left > *:nth-child(7){ animation-delay:.42s }
+.hero-right { animation: fadeUp .8s .2s ease both; }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px){
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px 40px; }
+  .hero-right { display: none; }
+  .reg-inner { grid-template-columns: 1fr; gap: 32px; padding: 48px 24px; }
+  .wrap { padding: 56px 24px; }
+  .sg-steps { grid-template-columns: 1fr; gap: 16px; }
+  .sg-arrow { display: none; }
+  .output-section { padding: 56px 24px; }
+  .info-grid { grid-template-columns: 1fr; }
+  footer { padding: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- COLLAB BAR -->
+<div style="background:var(--c1);color:rgba(255,255,255,.65);text-align:center;padding:8px 20px;font-size:11px;letter-spacing:.1em;border-bottom:1px solid rgba(255,255,255,.08);">
+  慶應義塾大学 SFC 寄附講座　×　電通デジタル
+</div>
+<!-- NOTICE BAR -->
+<div class="notice-bar">
+  ⚠ 【重要】授業内容を大幅に変更しました。登録番号・曜日時限・教室・単位数・履修課題に変更はありません。
+</div>
+
+
+<!-- ALREADY REGISTERED -->
+<section class="registered-section">
+  <div style="max-width:1100px;margin:0 auto;padding:48px 48px 0;position:relative;z-index:1;">
+    <div class="reg-tag">授業内容の変更について</div>
+    <h2 style="font-family:'Noto Serif JP',serif;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:600;color:white;line-height:1.4;margin-bottom:32px;">
+      「エンジニアリングマネジメント」の授業内容・スケジュールに変更があります。
+    </h2>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 48px 48px;position:relative;z-index:1;">
+
+    <!-- 変わること / 変わらないこと 横並び -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:36px;">
+
+      <div>
+        <p style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;">▼ 変わること</p>
+        <div class="diff-simple">
+          <div class="diff-row">
+            <div class="diff-old-box">研究テーマ：企業のエンジニアリングマネジメント課題</div>
+            <div class="diff-arr">→</div>
+            <div class="diff-new-box">AIが私たちへのマーケティングをどう変えるか（消費者視点）</div>
+          </div>
+          <div class="diff-row">
+            <div class="diff-old-box">手法：データ分析・機械学習（Python/Gemini）PBL</div>
+            <div class="diff-arr">→</div>
+            <div class="diff-new-box">未来洞察（フォーサイト）ワークショップ</div>
+          </div>
+          <div class="diff-row">
+            <div class="diff-old-box">学び方：企業実データをAIで分析するプロジェクト型</div>
+            <div class="diff-arr">→</div>
+            <div class="diff-new-box">Weakシグナル収集・KJ法・シナリオ構築のボトムアップ型研究</div>
+          </div>
+          <div class="diff-row">
+            <div class="diff-old-box">論文の軸：エンジニアリングマネジメントの提案手法</div>
+            <div class="diff-arr">→</div>
+            <div class="diff-new-box">AIと消費者マーケティングの未来シナリオ＋Managerial Implications</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;">✓ 変わらないこと</p>
+        <ul class="unchanged-list">
+          <li>授業タイトル・登録番号（49052）</li>
+          <li>火曜4限 14:45–16:15　ε21（SFC）</li>
+          <li>2単位　全14回＋1</li>
+          <li>IEEE IEEM 論文の履修課題（4月10日〆切）</li>
+          <li>グループワーク・論文執筆・最終発表という骨格</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- なぜ変わったか / フォーサイトとは -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+
+      <div style="background:rgba(255,255,255,.06);border-left:3px solid var(--gold);padding:22px 24px;">
+        <p style="font-size:10px;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;">シラバス改定の経緯</p>
+        <p style="font-size:13px;line-height:1.9;color:rgba(255,255,255,.7);font-weight:300;">
+          開講にあたり担当教員・電通デジタルとの協議を経て、授業内容を充実させることにしました。
+          毎日レコメンドを受け取り、インフルエンサーに動かされ、AIが生成した広告を目にしている——
+          <strong style="color:white">学生自身がすでにAIマーケティングの当事者</strong>です。
+          企業側の視点ではなく、消費者としての自分たちの視点から2030年代を問う方が、研究として豊かになると判断しました。
+        </p>
+      </div>
+
+      <div style="background:rgba(46,117,182,.15);border:1px solid rgba(46,117,182,.3);border-left:3px solid var(--c2l);padding:22px 24px;">
+        <p style="font-size:10px;color:var(--c2l);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;">未来洞察（フォーサイト）とは何か</p>
+        <p style="font-size:13px;line-height:1.85;color:rgba(255,255,255,.7);font-weight:300;margin-bottom:10px;">
+          AIの未来は「予測（Forecast）」できません。確実なことは何もない。だからこそ必要なのが<strong style="color:white">フォーサイト（未来洞察）</strong>——不確実な未来に対して複数のシナリオを構造的に描き、「何が起きうるか」を洞察する思考法です。
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">慶應義塾大学 SFC 寄附講座　×　電通デジタル</div>
+      <p class="hero-eyebrow">2026 Spring　｜　登録番号 49052</p>
+      <h1 class="hero-q">
+        AIは、<em>私たちへの</em><br>
+        マーケティングを<br>
+        どう変えるか。
+      </h1>
+      <p style="font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.06em;margin-top:12px;margin-bottom:18px;">講義名称：AIとエンジニアリングマネジメント</p>
+      <p class="hero-sub">The Future of AI and Marketing — Foresight Workshop</p>
+      <p class="hero-desc">
+        毎日届くレコメンド、インフルエンサーの言葉、AIが生成した広告——<br>
+        あなたはすでにAIマーケティングの当事者です。<br>
+        その変革を「未来洞察（フォーサイト）」の手法で探索し、<br>
+        あなたが著者として学術論文を世に問う。
+      </p>
+      <div class="hero-specs">
+        <div class="hspec"><div class="hspec-l">曜日・時限</div><div class="hspec-v">火曜 4限</div></div>
+        <div class="hspec"><div class="hspec-l">時間</div><div class="hspec-v">14:45–16:15</div></div>
+        <div class="hspec"><div class="hspec-l">教室</div><div class="hspec-v">ε21 / SFC</div></div>
+        <div class="hspec"><div class="hspec-l">単位</div><div class="hspec-v">2単位</div></div>
+      </div>
+      <a href="#info" class="hero-cta">シラバスを確認する →</a>
+    </div>
+    <div class="hero-right">
+      <div class="big-stat">
+        <span class="num">IEEM</span>
+      </div>
+      <div class="stat-card">
+        <div class="sc-num">6</div>
+        <div class="sc-label">チームが異なるドメインで<br>それぞれ1本の学術論文を執筆<br>学生が著者として名を連ねる</div>
+      </div>
+      <div class="sc-label">IEEMに論文を投稿し、<br>採択された論文は<br>学会発表の経済的支援あり</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-bottom" style="width:100%">
+    <span>AIとエンジニアリングマネジメント（寄附講座）</span>
+    登録番号 49052　｜　植原 啓介 / 中島 有希大　｜　連携：電通デジタル
+  </div>
+</section>
+
+
+<!-- SCHEDULE -->
+<section class="schedule-section">
+  <div class="wrap">
+    <p class="sec-eye">Session Schedule — 既存シラバスから最も変化したのがここです</p>
+    <h2 class="sec-title">授業計画（全14回　＋　1）</h2>
+    <div class="sec-rule"></div>
+    <div class="schedule-note">
+      各回の授業内容・課題・論文の進捗が対応しています。第4回（5/12）は論文執筆の方法を学ぶ専用回です。スキャニングで面白いシグナルが集まってきたタイミングで、そのシグナルが論文のMethodとResultsにどう繋がるかを具体的に示します。
+    </div>
+    <div style="overflow-x:auto">
+    <table class="sched-table">
+      <tr>
+        <th style="width:30px">回</th>
+        <th style="width:42px">日付</th>
+        <th style="width:170px">テーマ</th>
+        <th>授業の主な内容</th>
+      </tr>
+      <tr class="s-g"><td>1</td><td>4/14</td><td><span class="phase">オリエンテーション</span><br><strong>ガイダンス・オリエンテーション</strong></td><td>授業の目的・構成・評価方法・IEEMへの道のりを共有。担当教員・電通デジタルの紹介。論文執筆と国際学会投稿という最終ゴールの共有。チームワークの心構え。<br><small style="color:var(--muted)">【課題】スキャニングマテリアル各自10件収集・提出</small></td></tr>
+      <tr class="s-w"><td>2</td><td>4/21</td><td><span class="phase">Foundation</span><br><strong>フォーサイト概論</strong></td><td>Forecast vs Foresight・洞察問題・「2段推論」の思考法。シナリオの種類（供給者ドメイン／社会変化）。「AIは私たちへのマーケティングをどう変えるか」という問いの深化。前週課題を持参し簡易共有。<br><small style="color:var(--muted)">【課題】追加収集（累計20件）</small></td></tr>
+      <tr class="s-g"><td>3</td><td>4/28</td><td><span class="phase">Scanning</span><br><strong>スキャニング手法の概念と実践</strong></td><td>スキャニングマテリアルの構成・吟味基準・情報源。実際に作ってみる演習。累計20件を持参し共有・相互フィードバック。FACT/FAITH/FEAR分類演習。<br><small style="color:var(--muted)">【課題】追加収集（累計30件）</small></td></tr>
+      <tr class="s-rest"><td>—</td><td>5/5</td><td>（GW休講）</td><td>担当教員は一橋大学講義（KJ法・未来イシュー）を傍聴し翌週の準備を行う。学生は追加スキャニング・Literature Review調査。</td></tr>
+      <tr class="s-b"><td>4</td><td>5/12</td><td><span class="phase">Writing</span><br><strong>論文執筆の方法 <span class="new-badge">論文回</span></strong></td><td>学術論文の構造（IMRAD）・執筆手法のインプット。論文テンプレートの配布と解説。IEEMへの投稿要件・フォーサイト論文の先行事例紹介。スキャニングが論文のMethodとResultsにどう繋がるかを具体的に示す。<br><small style="color:var(--muted)">【課題】追加収集（累計40件）・Introduction骨格を考えてみる</small></td></tr>
+      <tr class="s-w"><td>5</td><td>5/19</td><td><span class="phase">KJ法 → チーム編成</span><br><strong>スキャニング講評・KJ法・チーム編成・ドメイン指定</strong></td><td>これまでのスキャニングをKJ法でクラスタリング→論点命名。帰納的発想の理論と実践。担当教員がチーム編成（6チーム）と研究ドメインを指定。チームごとに未来イシューを設定。<br><small style="color:var(--muted)">【課題】チームの未来イシュー案を精査・深化・Method節に着手</small></td></tr>
+      <tr class="s-g"><td>6</td><td>5/26</td><td><span class="phase">Issue</span><br><strong>チーム毎の未来イシュー検討会</strong></td><td>各チームが未来イシューを発表。全体での相互フィードバック。アウトサイド・イン視点でイシューを強化。インサイド・アウト仮説との統合。<br><small style="color:var(--muted)">【課題】未来イシューの確定・Method節完成</small></td></tr>
+      <tr class="s-w"><td>7</td><td>6/2</td><td><span class="phase">Scenario</span><br><strong>社会変化シナリオ作成体験</strong></td><td>「AIと消費者マーケティング」に関する社会変化仮説をチームで生成。仮説の評価・分類（FACT/FAITH/FEAR）。<br><small style="color:var(--muted)">【課題】社会変化仮説の精査・チームドメインへの適用案　／　論文：Results節着手</small></td></tr>
+      <tr class="s-g"><td>8</td><td>6/9</td><td><span class="phase">Scenario</span><br><strong>社会変化シナリオ発表と評価</strong></td><td>各チームの社会変化シナリオを全体で発表・評価。クラスタリングと未来年表への配置（2026〜2035年）。チーム間クロスドメイン議論。<br><small style="color:var(--muted)">【課題】Results節（シナリオ記述）・次回外部レビューの準備</small></td></tr>
+      <tr class="s-w"><td>9</td><td>6/16</td><td><span class="phase">External Review</span><br><strong>インパクトダイナミクス概念　＋　外部専門家レビュー</strong></td><td>インパクトダイナミクス手法の説明（社会変化シナリオ×未来イシューの交差分析）。電通デジタル実務家によるゲストレビュー：各チームのシナリオに実務的視点からのフィードバック。<br><small style="color:var(--muted)">【課題】Discussion節＋Managerial Implications執筆</small></td></tr>
+      <tr class="s-g"><td>10</td><td>6/23</td><td><span class="phase">Writing</span><br><strong>インパクトダイナミクスの体験と論文ドラフトレビュー</strong></td><td>インパクトダイナミクスの体験（社会変化×未来イシューのマトリクスを埋める）。全セクション揃ったドラフトを持参しチーム間相互レビュー。講師フィードバック。<br><small style="color:var(--muted)">【課題】レビュー反映・論文修正　／　論文：全セクション統合</small></td></tr>
+      <tr class="s-y"><td>11</td><td>6/30</td><td><span class="phase">★ 最終</span><br><strong>最終修正　＋　提出準備　→ 翌7/1 論文提出締切</strong></td><td>Abstract・Conclusion仕上げ。図表・フォーマット最終化。参考文献の整備。インパクトダイナミクス分析の結果を論文に統合。最終確認 → 7月1日 Full Paper 提出。<br><small style="color:var(--muted)">★ 7/1 論文提出締切</small></td></tr>
+      <tr class="s-w"><td>12</td><td>7/7</td><td><span class="phase">Final</span><br><strong>最終発表</strong></td><td>各チーム20分発表＋15分質疑。提出済み論文の内容を発表・議論する。</td></tr>
+      <tr class="s-g"><td>13</td><td>7/14</td><td><span class="phase">Closing</span><br><strong>振り返り　＋　次期計画</strong></td><td>手法改善の議論。フォーサイト手法の学術的位置づけ（シナリオプランニングの開発史）。フィードバック返却。</td></tr>
+      <tr class="s-w"><td>14</td><td>7/21</td><td><span class="phase">Closing</span><br><strong>生成AIを用いたプレゼンテーション作成　＋　修了</strong></td><td>生成AIを用いた効果的な発表資料・グラフ・図解の作成手法。各グループ最終発表・個人レポート提出・修了。</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- DOMAINS -->
+<section class="domain-section">
+  <div class="wrap">
+    <p class="sec-eye">Research Domains</p>
+    <h2 class="sec-title">6チームが異なる問いを研究する</h2>
+    <div class="sec-rule"></div>
+    <p class="domain-intro">
+      AIマーケティングの変革を、6チームがそれぞれ異なるドメインから探究します。
+      テーマは第5回（5/19）に担当教員が指定しますが、第1〜4回のスキャニング活動の結果を踏まえて決定します。
+      以下は参考例です。同一手法・異ドメイン比較という設計により、6本の論文が独立して成立します。
+    </p>
+    <div class="domain-grid">
+      <div class="domain-card">
+        <div class="d-team">Team A</div>
+        <h3>レコメンドと自律性</h3>
+        <p>AIレコメンドは消費者の選択をどう変えるか。フィルターバブル・依存と自律の未来。</p>
+      </div>
+      <div class="domain-card">
+        <div class="d-team">Team B</div>
+        <h3>インフルエンサーと信頼</h3>
+        <p>AI生成インフルエンサーが台頭するとき、消費者の「信頼」はどこに向かうか。</p>
+      </div>
+      <div class="domain-card">
+        <div class="d-team">Team C</div>
+        <h3>プライバシーとデータ</h3>
+        <p>行動予測マーケティングが高度化するなかで、消費者はプライバシーをどう再定義するか。</p>
+      </div>
+      <div class="domain-card">
+        <div class="d-team">Team D</div>
+        <h3>価格とダイナミクス</h3>
+        <p>AIによるリアルタイム価格変動は、消費者の購買体験・公平感をどう変えるか。</p>
+      </div>
+      <div class="domain-card">
+        <div class="d-team">Team E</div>
+        <h3>コンテンツと真正性</h3>
+        <p>AI生成広告が溢れるとき、消費者は「本物らしさ」をどこに求めるか。</p>
+      </div>
+      <div class="domain-card">
+        <div class="d-team">Team F</div>
+        <h3>ファンダム経済とAI</h3>
+        <p>AIは推し活・ファンコミュニティの体験をどう変えるか。感情的絆と経済行動の未来。</p>
+      </div>
+    </div>
+    <div class="domain-note">
+      📌 チームが6を超えても構いません。スキャニングの結果から新たなドメインが見つかれば、7チーム・8チームでの実施も可能です。
+    </div>
+  </div>
+</section>
+
+
+<!-- INFO -->
+<section class="info-section" id="info">
+  <div class="wrap">
+    <p class="sec-eye">Course Info</p>
+    <h2 class="sec-title">講座情報・履修課題</h2>
+    <div class="sec-rule"></div>
+    <div class="info-grid">
+      <div>
+        <table class="info-table">
+          <tr><td class="lbl">科目名</td><td class="val">AIとエンジニアリングマネジメント（寄附講座）</td></tr>
+          <tr><td class="lbl">登録番号</td><td class="val">49052</td></tr>
+          <tr><td class="lbl">曜日・時限</td><td class="val">火曜日　4限（14:45–16:15）</td></tr>
+          <tr><td class="lbl">教室</td><td class="val">ε21（湘南藤沢キャンパス）</td></tr>
+          <tr><td class="lbl">単位数</td><td class="val">2単位</td></tr>
+          <tr><td class="lbl">担当教員</td><td class="val">植原 啓介　／　中島 有希大</td></tr>
+          <tr><td class="lbl">共同開設</td><td class="val">株式会社電通デジタル</td></tr>
+          <tr><td class="lbl">受講定員</td><td class="val">36名（選抜あり）</td></tr>
+          <tr><td class="lbl">連絡先</td><td class="val">kei@sfc.keio.ac.jp</td></tr>
+        </table>
+      </div>
+      <div class="ieem-box">
+        <h3>📋 履修課題（変更なし）</h3>
+        <p>
+          IEEE International Conference on Industrial Engineering and Engineering Management（IEEM 2024）に掲載された論文を1本読み、その内容をまとめて提出してください。
+        </p>
+        <div class="ieem-name">
+          <strong style="color:var(--gold-l);font-size:10px;display:block;margin-bottom:4px;letter-spacing:.1em">IEEM とは</strong>
+          IEEE主催の国際学会。Industrial Engineering（工学・オペレーションズ）とEngineering Management（技術経営）をカバーする権威あるカンファレンス。<br>
+          
+          <strong style="color:var(--gold-l)">締切：2026年4月10日</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- OUTPUT -->
+<section class="output-section">
+  <div class="output-inner">
+    <p class="sec-eye">What You'll Produce</p>
+    <h2 class="sec-title">この授業で生み出すもの</h2>
+    <div class="sec-rule"></div>
+    <p>
+      チームで執筆する学術論文。AIと消費者マーケティングの未来について、
+      フォーサイト手法と学術的厳密さをもって独自の洞察を世に問います。
+    </p>
+    <div class="output-tags">
+      <span class="output-tag">学術論文（学生が著者）</span>
+      <span class="output-tag">未来シナリオ設計</span>
+      <span class="output-tag">フォーサイト実践スキル</span>
+      <span class="output-tag">KJ法・帰納的発想</span>
+      <span class="output-tag">Managerial Implications</span>
+      <span class="output-tag">国際学会発表の可能性 🇸🇬</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>慶應義塾大学 SFC 寄附講座「AIとエンジニ�
